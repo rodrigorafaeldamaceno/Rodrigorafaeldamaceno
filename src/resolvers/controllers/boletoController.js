@@ -4,7 +4,18 @@ const Cliente = require('../../model/cliente')
 
 
 module.exports = {
-  async index(_, { cliente, empresa }) {
+  async index(_, { cliente, empresa, distinct }) {
+    if (distinct) {
+      const emp = await Boleto.distinct('empresa', { cliente }).populate('empresa')
+
+      const boletos = emp.map(async (value) => {
+        const boleto = await Boleto.findOne({ empresa: value }).populate(`cliente`).populate(`empresa`)
+        return boleto
+      })
+      console.log(boletos)
+
+      return boletos
+    }
 
     if (!cliente && !empresa)
       return Boleto.find().populate(`cliente`).populate(`empresa`)
@@ -37,5 +48,5 @@ module.exports = {
   },
   destroy(_, { id }) {
     return Boleto.findByIdAndRemove(id)
-  }
+  },
 }

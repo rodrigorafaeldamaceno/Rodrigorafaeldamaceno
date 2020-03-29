@@ -32,7 +32,7 @@ type Query {
 
   getEmpresas: [Empresa!]!
 
-  getBoletos(empresa: String, cliente: String):[Boleto!]!
+  getBoletos(empresa: String, cliente: String, distinct: Boolean):[Boleto!]!
   getBoleto(id: ID!): Boleto
 }
 
