@@ -1,0 +1,57 @@
+type Cliente {
+  id: String!
+  nome: String!
+  email: String!
+  password: String!
+}
+
+type Empresa {
+  id: String!
+  nome: String!
+  email: String!
+  telefone: String!
+  cnpj: String!
+}
+
+type Boleto {
+  id: String!
+  valor: Float!
+  status: String!
+  codigo: String!
+  link: String
+  dataVencimento: String!
+  mesReferencia: String!
+  empresa: Empresa!
+  cliente: Cliente!
+}
+
+
+type Query {
+  getClientes: [Cliente!]!
+  getCliente(id: ID, email: String, password: String): Cliente
+
+  getEmpresas: [Empresa!]!
+
+  getBoletos(empresa: String, cliente: String):[Boleto!]!
+  getBoleto(id: ID!): Boleto
+}
+
+type Mutation {
+  criarCliente(nome: String!, email: String!, password: String!): Cliente
+  deletarCliente(id: String!): Cliente
+  editarCliente(id: String!, nome: String, email: String): Cliente
+
+  criarEmpresa(nome: String!, cnpj: String!, email: String!, telefone: String!): Empresa
+  deletarEmpresa(id: ID!): Empresa!
+  editarEmpresa(id: ID!, nome: String, email: String, telefone: String): Empresa!
+
+  criarBoleto(valor: Float!, 
+    status: String, 
+    codigo: String!, 
+    link: String, 
+    dataVencimento: String!
+    mesReferencia: String!
+    idEmpresa: String!, 
+    idCliente: String!): Boleto
+  deletarBoleto(id: ID!): Boleto
+}
